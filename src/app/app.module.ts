@@ -27,43 +27,49 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TreeOrganogramaComponent } from './organograma/tree-organograma/tree-organograma.component';
 import { FormularioOrganogramaComponent } from './organograma/formulario-organograma/formulario-organograma.component';
+import { EditNameDialogComponent } from './organograma/tree-organograma/edit-name-dialog/edit-name-dialog.component';
+import { FormsModule } from '@angular/forms';
+
+
 
  
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EmpresaComponent,
-    FuncionarioComponent,
-    SuccessModalComponentComponent,
-    OrganogramaComponent,
-    TreeOrganogramaComponent,
-    FormularioOrganogramaComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    RouterModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatInputModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatTreeModule,
-    MatSelectModule,
-    MatAutocompleteModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        EmpresaComponent,
+        FuncionarioComponent,
+        SuccessModalComponentComponent,
+        OrganogramaComponent,
+        TreeOrganogramaComponent,
+        FormularioOrganogramaComponent,
+        EditNameDialogComponent,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        RouterModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        MatMenuModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatInputModule,
+        HttpClientModule,
+        MatDialogModule,
+        MatTreeModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        FormsModule
+    ]
 })
 export class AppModule { 
 
