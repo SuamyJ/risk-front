@@ -11,7 +11,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="addGin(node)">Add gin</button>
+            <button mat-menu-item (click)="addNew(node)">Add New</button>
             <button mat-menu-item (click)="editName(node)">Edit Name</button>
             <button mat-menu-item (click)="remove(node)">Remove</button>
           </mat-menu>
@@ -36,7 +36,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="addGin(node)">Add gin</button>
+          <button mat-menu-item (click)="addNew(node)">Add New</button>
           <button mat-menu-item (click)="editName(node)">Edit Name</button>
           <button mat-menu-item (click)="remove(node)">Remove</button>
         </mat-menu>
@@ -48,3 +48,6 @@
     </li>
   </mat-nested-tree-node>
 </mat-tree>
+<div class="container" style="margin-left: 40%;margin-top: 2%;">
+  <button mat-raised-button color="primary" (click)="save()">Submit</button>
+</div>

@@ -22,7 +22,11 @@ export class FuncionarioComponent {
 // TODO passar o valor de usuario logado e empresa desse usuario.
   submit() {
     console.log({nvarNome: this.form.get('nome')?.value, nvarEmail: this.form.get('nome')?.value, nvarDescricao: this.form.get('descricao')?.value});
-    this.service.insertData({nvarNome: this.form.get('nome')?.value, nvarEmail: this.form.get('email')?.value, nvarDescricao: this.form.get('descricao')?.value}).subscribe({
+    this.service.insertData({nvarNome: this.form.get('nome')?.value,
+                             nvarEmail: this.form.get('email')?.value,
+                             nvarDescricao: this.form.get('descricao')?.value,
+                            //alterar pro id da empresa logado.
+                             empresa: {id: "1"}}).subscribe({
       next: (n) => console.log(n),
       error: (e) => console.error(e)
     })

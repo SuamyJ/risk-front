@@ -1,32 +1,21 @@
 import { Component } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { TreeDataSource, FoodNode } from './tree-datasource';
+import { TreeDataSource, Organograma } from './tree-datasource';
 import { EditNameDialogComponent } from './edit-name-dialog/edit-name-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { OrganogramaService } from '../organograma.service';
 
 
 
 
 
-let TREE_DATA: FoodNode[] = [
-  {
-    name: "Fruit",
-    children: [{ name: "Apple" }, { name: "Banana" }, { name: "Fruit loops" }]
-  },
-  {
-    name: "Vegetables",
-    children: [
-      {
-        name: "Green",
-        children: [{ name: "Broccoli" }, { name: "Brussel sprouts" }]
-      },
-      {
-        name: "Orange",
-        children: [{ name: "Pumpkins" }, { name: "Carrots" }]
-      }
-    ]
-  }
-];
+ 
+//   [{ id: 1,
+//     name: "Presidente",
+//     empresa: { id: 1},
+//     children: [{ name: "Diretor", empresa: { id: 1} }, { name: "Banana", empresa: { id: 1} }, { name: "Fruit loops", empresa: { id: 1} }]
+//   }]
+// ;
 
 
 @Component({
@@ -35,20 +24,34 @@ let TREE_DATA: FoodNode[] = [
   styleUrls: ['./tree-organograma.component.css']
 })
 export class TreeOrganogramaComponent {
-  treeControl = new NestedTreeControl<FoodNode>(node => node.children);
-  dataSource = new TreeDataSource(this.treeControl, TREE_DATA);
-  nodes = TREE_DATA;
+  TREE_DATA: Organograma[];
+  nodes : Organograma[];
+  treeControl : any;
+  dataSource : any;
+  exibir : boolean = false;
+  
 
-  constructor(private dialog: MatDialog) {}
-
-  hasChild = (_: number, node: FoodNode) =>
-    !!node.children && node.children.length > 0;
-
-  addGin(parentNode: FoodNode) {
-    this.dataSource.add({ name: "New" }, parentNode);
+  constructor(private dialog: MatDialog, private service: OrganogramaService) {
+      this.TREE_DATA = service.getTreeData();
+      console.log("treecomponent: "+ JSON.stringify(this.TREE_DATA));
+      this.treeControl = new NestedTreeControl<Organograma>(node => node.children);
+      this.dataSource = new TreeDataSource(this.treeControl, this.TREE_DATA);
+      this.nodes = this.TREE_DATA;
   }
 
-  editName(node: FoodNode) {
+  
+  
+
+  
+
+  hasChild = (_: number, node: Organograma) =>
+    !!node.children && node.children.length > 0;
+
+  addNew(parentNode: Organograma) {
+    this.dataSource.add({ name: "New", empresa: { id: 1} }, parentNode);
+  }
+
+  editName(node: Organograma) {
     const dialogRef = this.dialog.open(EditNameDialogComponent, {
       width: '300px',
       data: { name: node.name }
@@ -58,21 +61,17 @@ export class TreeOrganogramaComponent {
       if (result) {
         const nodeIndex = this.nodes.indexOf(node);
         let indexFind = this.getNodeIndex(node.name, this.nodes, [])
-        console.log("index achado: "+ indexFind);
-        console.log(...this.nodes);
         this.modifyNode(indexFind, result);
-        console.log(...this.nodes);
-        // this.nodes[nodeIndex].name = result;
-
       }
     });
   }
-  remove(node: FoodNode) {
+  
+  remove(node: Organograma) {
     this.dataSource.remove(node);
   }
 
 
-  getNodeIndex(nodeName: string, treeData: FoodNode[], path: number[] = []): number[] {
+  getNodeIndex(nodeName: string, treeData: Organograma[], path: number[] = []): number[] {
     for (let i = 0; i < treeData.length; i++) {
       const currentNode = treeData[i];
       if (currentNode.name === nodeName) {
@@ -89,7 +88,7 @@ export class TreeOrganogramaComponent {
   }
 
   modifyNode(indexArray: number[], newName: string) {
-    let nodes = TREE_DATA;
+    let nodes = this.TREE_DATA;
     let node;
     for (let i = 0; i < indexArray.length; i++) {
       node = nodes[indexArray[i]];
@@ -99,5 +98,13 @@ export class TreeOrganogramaComponent {
         nodes = node.children!;
       }
     }
+  }
+
+  save(){
+    console.log(this.TREE_DATA.at(0));
+    this.service.insertData(this.TREE_DATA.at(0)).subscribe({
+      next: (n) => console.log(n),
+      error: (e) => console.error(e)
+    });
   }
 }

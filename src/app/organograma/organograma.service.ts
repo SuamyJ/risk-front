@@ -1,0 +1,36 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { Organograma } from './tree-organograma/tree-datasource';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class OrganogramaService {
+
+  private url : string = "http://localhost:8081/organograma/api/organograma";
+
+  TREE_DATA : Organograma[] = []
+
+  constructor(private http: HttpClient) { }
+
+  setTreeData(organograma : Organograma[]){
+      this.TREE_DATA = organograma;
+  }
+
+  getTreeData() : Organograma[]{
+    return this.TREE_DATA;
+  }
+  
+  insertData(data : any) {
+    return this.http.post(this.url, data);
+  }
+
+  fetchData() {
+    return this.http.get(this.url + "/empresaId/1"); 
+  }
+
+  fetchDataArray() {
+    return this.http.get(this.url + "/array/empresaId/1"); 
+  }
+}

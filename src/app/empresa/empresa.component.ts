@@ -5,6 +5,9 @@ import { EmpresaService } from './empresa.service';
 import { SuccessModalComponentComponent } from '../success-modal-component/success-modal-component.component'
 
 
+export interface Empresa {
+  id?: number;
+}
 
 @Component({
   selector: 'app-empresa',

@@ -1,35 +1,38 @@
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { Component, ViewChild, AfterViewInit } from "@angular/core";
 import { MatTreeNestedDataSource, MatTree } from "@angular/material/tree";
+import { Empresa } from "src/app/empresa/empresa.component";
 
 /**
  * Food data with nested structure.
  * Each node has a name and an optional list of children.
  */
-export interface FoodNode {
+export interface Organograma {
+  id?: number;
   name: string;
-  children?: FoodNode[];
+  empresa?: Empresa;
+  children?: Organograma[];
 }
 
-export class TreeDataSource extends MatTreeNestedDataSource<FoodNode> {
+export class TreeDataSource extends MatTreeNestedDataSource<Organograma> {
   constructor(
-    private treeControl: NestedTreeControl<FoodNode>,
-    intialData: FoodNode[]
+    private treeControl: NestedTreeControl<Organograma>,
+    intialData: Organograma[]
   ) {
     super();
     this.data = intialData;
   }
 
   /** Add node as child of parent */
-  public add(node: FoodNode, parent: FoodNode) {
-    // add dummy root so we only have to deal with `FoodNode`s
+  public add(node: Organograma, parent: Organograma) {
+    // add dummy root so we only have to deal with `Organograma`s
     const newTreeData = { name: "Dummy Root", children: this.data };
     this._add(node, parent, newTreeData);
     this.data = newTreeData.children;
   }
 
   /** Remove node from tree */
-  public remove(node: FoodNode) {
+  public remove(node: Organograma) {
     const newTreeData = { name: "Dummy Root", children: this.data };
     this._remove(node, newTreeData);
     this.data = newTreeData.children;
@@ -40,7 +43,7 @@ export class TreeDataSource extends MatTreeNestedDataSource<FoodNode> {
    * https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns/
    */
 
-  protected _add(newNode: FoodNode, parent: FoodNode, tree: FoodNode) : any{
+  protected _add(newNode: Organograma, parent: Organograma, tree: Organograma) : any{
     if (tree === parent) {
       console.log(
         `replacing children array of '${parent.name}', adding ${newNode.name}`
@@ -60,7 +63,7 @@ export class TreeDataSource extends MatTreeNestedDataSource<FoodNode> {
     return this.update(tree, this._add.bind(this, newNode, parent));
   }
 
-  _remove(node: FoodNode, tree: FoodNode): boolean {
+  _remove(node: Organograma, tree: Organograma): boolean {
     if (!tree.children) {
       return false;
     }
@@ -77,8 +80,8 @@ export class TreeDataSource extends MatTreeNestedDataSource<FoodNode> {
     return this.update(tree, this._remove.bind(this, node));
   }
 
-  protected update(tree: FoodNode, predicate: (n: FoodNode) => boolean) {
-    let updatedTree: FoodNode, updatedIndex: number;
+  protected update(tree: Organograma, predicate: (n: Organograma) => boolean) {
+    let updatedTree: Organograma, updatedIndex: number;
 
     tree.children!.find((node, i) => {
       if (predicate(node)) {
@@ -99,7 +102,7 @@ export class TreeDataSource extends MatTreeNestedDataSource<FoodNode> {
     return false;
   }
 
-  moveExpansionState(from: FoodNode, to: FoodNode) {
+  moveExpansionState(from: Organograma, to: Organograma) {
     if (this.treeControl.isExpanded(from)) {
       console.log(`'${from.name}' was expanded, setting expanded on new node`);
       this.treeControl.collapse(from);

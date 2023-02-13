@@ -13,4 +13,7 @@ export class FuncionarioService {
   insertData(data : any) {
     return this.http.post(this.url, data);
   }
+  fetchData() {
+    return this.http.get(this.url + "/empresaId/1");
+  }
 }
