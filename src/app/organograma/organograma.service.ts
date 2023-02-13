@@ -36,6 +36,6 @@ export class OrganogramaService {
   }
 
   save(selectedValue1: string, selectedValue2: string) {
-    
+    console.log()
   }
 }
