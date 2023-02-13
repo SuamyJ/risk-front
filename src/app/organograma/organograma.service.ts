@@ -7,8 +7,9 @@ import { Organograma } from './tree-organograma/tree-datasource';
   providedIn: 'root'
 })
 export class OrganogramaService {
-
+  
   private url : string = "http://localhost:8081/organograma/api/organograma";
+  private urlFuncionarioOrganograma : string = "http://localhost:8081/organograma/api/funcionario-organogramas";
 
   TREE_DATA : Organograma[] = []
 
@@ -32,5 +33,9 @@ export class OrganogramaService {
 
   fetchDataArray() {
     return this.http.get(this.url + "/array/empresaId/1"); 
+  }
+
+  save(selectedValue1: string, selectedValue2: string) {
+    
   }
 }

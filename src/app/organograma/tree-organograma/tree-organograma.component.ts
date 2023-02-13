@@ -29,6 +29,7 @@ export class TreeOrganogramaComponent {
   treeControl : any;
   dataSource : any;
   exibir : boolean = false;
+  newid : number = 0;
   
 
   constructor(private dialog: MatDialog, private service: OrganogramaService) {
@@ -48,7 +49,7 @@ export class TreeOrganogramaComponent {
     !!node.children && node.children.length > 0;
 
   addNew(parentNode: Organograma) {
-    this.dataSource.add({ name: "New", empresa: { id: 1} }, parentNode);
+    this.dataSource.add({ name: "New"+this.newid++, empresa: { id: 1} }, parentNode);
   }
 
   editName(node: Organograma) {

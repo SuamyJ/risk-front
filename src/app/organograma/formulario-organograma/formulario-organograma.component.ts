@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FuncionarioService } from 'src/app/funcionario/funcionario.service';
-import { SuccessModalComponentComponent } from 'src/app/success-modal-component/success-modal-component.component';
 import { OrganogramaService } from '../organograma.service';
 
+interface  OrganogramaEntity{
+  id : number;
+  nvarNome : string;
+}
 
+interface FuncionarioEntity{
+  idnVarFuncionario : string;
+  nvarNome : string;
+}
 
 @Component({
   selector: 'app-formulario-organograma',
@@ -13,16 +19,20 @@ import { OrganogramaService } from '../organograma.service';
   styleUrls: ['./formulario-organograma.component.css']
 })
 export class FormularioOrganogramaComponent {
-  form: FormGroup;
+  selectedValue1!: string;
+  selectedValue2!: string;
 
-  constructor(private formBuilder: FormBuilder, 
-              public dialog: MatDialog, 
+  options1 : OrganogramaEntity[] = [];
+  options2 : FuncionarioEntity[] = [];
+
+  constructor(public dialog: MatDialog, 
               private organogramaService: OrganogramaService,
               private funcionarioService: FuncionarioService) {
-    this.form = this.formBuilder.group({
-      nome: ['', [Validators.required]],
-      descricao: ['', [Validators.required]]
-    });
+    organogramaService.fetchData().subscribe(res => {this.options1 = res as OrganogramaEntity[];
+                                                    console.log(JSON.stringify(this.options1));});
+    funcionarioService.fetchData().subscribe(res => {this.options2 = res as FuncionarioEntity[]
+                                                    console.log(JSON.stringify(this.options2));});
+                                                    
   }
 
 // TODO passar o valor de usuario logado que inseriu essa empresa.  
@@ -38,23 +48,15 @@ recuperarValores() {
     });
 }
 
-submit() {
-    // console.log({id: null,idnVarEmpresa: 'teste', nVarNome: this.form.get('nome')?.value, nVarDescricao: this.form.get('descricao')?.value});
-    // this.service.insertData({id: null, idnVarEmpresa: 'teste', nvarNome: this.form.get('nome')?.value, nvarDescricao: this.form.get('descricao')?.value}).subscribe({
-    //   next: (n) => console.log(n),
-    //   error: (e) => console.error(e)
-    // });
-
-    this.openSuccessModal();
+  onSubmit() {
+    console.log(this.selectedValue1, this.selectedValue2);
+    this.organogramaService.save(this.selectedValue1, this.selectedValue2)
   }
-  openSuccessModal() {
-    const dialogRef = this.dialog.open(SuccessModalComponentComponent, {
-      width: '250px',
-      data: {}
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
+  // const extractOrganogramaData = (organogramasData: any[]): OrganogramaEntity[] => {
+  //   return organogramasData.map(organogramaData => ({
+  //     id: organogramaData.id,
+  //     nVarName: organogramaData.nVarName
+  //   }));
+  // };
 }
